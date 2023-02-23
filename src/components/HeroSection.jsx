@@ -20,7 +20,7 @@ const HeroSection = ({myData}) => {
         </div>
         <div className="hero-section-image">
           <figure>
-            <img src="images/hero.jpg" alt="photo" className='img-style'/>
+            <img src="images/hero.jpg" alt="hero-section-img" className='img-style'/>
           </figure>
         </div>
       </div>
