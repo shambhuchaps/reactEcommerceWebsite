@@ -4,6 +4,7 @@ import About from "./components/About";
 import Cart from "./components/Cart";
 import Contact from "./components/Contact";
 import Error from "./components/Error";
+import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import Products from "./components/Products";
@@ -51,6 +52,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="*" element={<Error />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </ThemeProvider>
   );
