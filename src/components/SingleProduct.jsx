@@ -34,10 +34,10 @@ const SingleProduct = () => {
   return (
     <Wrapper>
       <PageNavigation title={name}/>
-      <Container className="container"/>
+      <Container className="container">
         <div className="grid grid-two-column">
           {/* product images */}
-          <div className="product_images">
+          <div className="product-images">
           <MyImage imgs={image} />
           </div>
             {/* product data  */}
@@ -82,6 +82,7 @@ const SingleProduct = () => {
               </div>
             </div>
         </div>
+        </Container>
     </Wrapper>
   )
 }
