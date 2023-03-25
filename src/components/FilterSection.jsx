@@ -11,12 +11,14 @@ const FilterSection = () => {
      return curElem[property];
    });
   //  console.log(newVal);
-  return (newVal = ["All", ...new Set(newVal)]);
+  return (newVal = ["all", ...new Set(newVal)]);
   //  console.log(newVal)
  };
 
  // We need unique data
  const categoryOnlyData = getUniqueData(all_products, "category");
+ const companyData = getUniqueData(all_products, "company");
+ console.log(companyData);
 
   return (
     <Wrapper>
@@ -32,6 +34,22 @@ const FilterSection = () => {
            {curElem}
           </button>
         })}</div>
+      </div>
+
+      <div className="filter-company">
+        <h3>Company</h3>
+
+        <form action="#">
+          <select name="company" id="company" className="filter-company--select" onClick={updateFilterValue}>
+            {
+              companyData.map((curElem, index)=>{
+                return (
+                  <option key={index} value={curElem} name="company">{curElem}</option>
+                )
+              })
+            }
+          </select>
+        </form>
       </div>
     </Wrapper>
   )
