@@ -11,14 +11,21 @@ const FilterSection = () => {
      return curElem[property];
    });
   //  console.log(newVal);
-  return (newVal = ["all", ...new Set(newVal)]);
-  //  console.log(newVal)
+  
+   if (property === "colors"){
+    return (newVal = ["all", ...new Set([].concat(...newVal))]);
+   }else{
+    return (newVal = ["all", ...new Set(newVal)]);
+    //  console.log(newVal)
+   }   
  };
 
  // We need unique data
  const categoryOnlyData = getUniqueData(all_products, "category");
  const companyData = getUniqueData(all_products, "company");
- console.log(companyData);
+ const colorsData = getUniqueData(all_products, "colors");
+ console.log(colorsData);
+ 
 
   return (
     <Wrapper>
