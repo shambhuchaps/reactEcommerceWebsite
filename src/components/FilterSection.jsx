@@ -1,44 +1,53 @@
 import styled from "styled-components";
 import { useFilterContext } from "../context/filter_context";
+import {FaCheck} from "react-icons/fa";
 
 const FilterSection = () => {
 
- const { filters: {text, category}, all_products, updateFilterValue } = useFilterContext();
+  const { filters: { text, category, color }, all_products, updateFilterValue } = useFilterContext();
 
- // To get the unique data of each fields
- const getUniqueData = (data, property ) =>{
-   let newVal = data.map((curElem)=>{
-     return curElem[property];
-   });
-  //  console.log(newVal);
-  
-   if (property === "colors"){
-    return (newVal = ["all", ...new Set([].concat(...newVal))]);
-   }else{
+  // To get the unique data of each fields
+  const getUniqueData = (data, property) => {
+    let newVal = data.map((curElem) => {
+      return curElem[property];
+    });
+    //  console.log(newVal);
+
+    // Old way
+    //  if (property === "colors"){
+    //   return (newVal = ["all", ...new Set([].concat(...newVal))]);
+    //  }else{
+    //   return (newVal = ["all", ...new Set(newVal)]);
+    //   //  console.log(newVal)
+    //  }  
+
+    //easy and new way
+    if (property === "colors") {
+      newVal = newVal.flat();
+    }
+
     return (newVal = ["all", ...new Set(newVal)]);
-    //  console.log(newVal)
-   }   
- };
+  };
 
- // We need unique data
- const categoryOnlyData = getUniqueData(all_products, "category");
- const companyData = getUniqueData(all_products, "company");
- const colorsData = getUniqueData(all_products, "colors");
- console.log(colorsData);
- 
+  // We need unique data
+  const categoryOnlyData = getUniqueData(all_products, "category");
+  const companyData = getUniqueData(all_products, "company");
+  const colorsData = getUniqueData(all_products, "colors");
+  console.log(colorsData);
+
 
   return (
     <Wrapper>
       <div className="filter-search">
-        <form onSubmit={(e)=> e.preventDefault()}>
-          <input type="text" name="text" value={text} onChange={updateFilterValue} placeholder="SEARCH"/>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <input type="text" name="text" value={text} onChange={updateFilterValue} placeholder="SEARCH" />
         </form>
       </div>
       <div className="filter-category">
         <h3>Category</h3>
-        <div>{categoryOnlyData.map((curElem, index)=>{
+        <div>{categoryOnlyData.map((curElem, index) => {
           return <button key={index} type="button" name="category" value={curElem} onClick={updateFilterValue}>
-           {curElem}
+            {curElem}
           </button>
         })}</div>
       </div>
@@ -49,7 +58,7 @@ const FilterSection = () => {
         <form action="#">
           <select name="company" id="company" className="filter-company--select" onClick={updateFilterValue}>
             {
-              companyData.map((curElem, index)=>{
+              companyData.map((curElem, index) => {
                 return (
                   <option key={index} value={curElem} name="company">{curElem}</option>
                 )
@@ -57,6 +66,32 @@ const FilterSection = () => {
             }
           </select>
         </form>
+      </div>
+
+      <div className="filter-colors colors">
+        <h3>Colors</h3>
+
+        <div className="filter-color-style">
+          {
+            colorsData.map((curColor, index) => {
+              // console.log(curColor);
+              // console.log(color);
+              
+              if(curColor==="all"){
+                return (
+                  <button key={index} type="button" value={curColor} name='color' className="color-all--style" onClick={updateFilterValue}>
+                    all
+                  </button>
+                )
+              }
+              return (
+                <button key={index} type="button" value={curColor} name='color' style={{ backgroundColor: curColor }} className={color === curColor ? "btnStyle active" : "btnStyle" } onClick={updateFilterValue}>
+                  {color === curColor ? <FaCheck className="checkStyle" /> : null}
+                </button>
+              )
+            })
+          }
+        </div>
       </div>
     </Wrapper>
   )
