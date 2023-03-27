@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import { useFilterContext } from "../context/filter_context";
 import {FaCheck} from "react-icons/fa";
+import FormatPrice from "../Helpers/FormatePrice";
 
 const FilterSection = () => {
 
-  const { filters: { text, category, color }, all_products, updateFilterValue } = useFilterContext();
+  const { filters: { text, category, color, price, maxPrice, minPrice }, all_products, updateFilterValue } = useFilterContext();
 
   // To get the unique data of each fields
   const getUniqueData = (data, property) => {
@@ -33,7 +34,7 @@ const FilterSection = () => {
   const categoryOnlyData = getUniqueData(all_products, "category");
   const companyData = getUniqueData(all_products, "company");
   const colorsData = getUniqueData(all_products, "colors");
-  console.log(colorsData);
+  // console.log(colorsData);
 
 
   return (
@@ -76,7 +77,7 @@ const FilterSection = () => {
             colorsData.map((curColor, index) => {
               // console.log(curColor);
               // console.log(color);
-              
+
               if(curColor==="all"){
                 return (
                   <button key={index} type="button" value={curColor} name='color' className="color-all--style" onClick={updateFilterValue}>
@@ -92,6 +93,12 @@ const FilterSection = () => {
             })
           }
         </div>
+      </div>
+
+      <div className="filter_price">
+        <h3>Price</h3>
+         <p><FormatPrice price={price}/></p>
+         <input type="range" name="price" min={minPrice} max={maxPrice} value={price} onChange={updateFilterValue} />
       </div>
     </Wrapper>
   )
