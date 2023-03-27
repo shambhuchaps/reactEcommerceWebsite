@@ -2,10 +2,11 @@ import styled from "styled-components";
 import { useFilterContext } from "../context/filter_context";
 import {FaCheck} from "react-icons/fa";
 import FormatPrice from "../Helpers/FormatePrice";
+import {Button} from "../styles/Buttons";
 
 const FilterSection = () => {
 
-  const { filters: { text, category, color, price, maxPrice, minPrice }, all_products, updateFilterValue } = useFilterContext();
+  const { filters: { text, category, color, price, maxPrice, minPrice }, all_products, updateFilterValue, clearFilters } = useFilterContext();
 
   // To get the unique data of each fields
   const getUniqueData = (data, property) => {
@@ -47,7 +48,7 @@ const FilterSection = () => {
       <div className="filter-category">
         <h3>Category</h3>
         <div>{categoryOnlyData.map((curElem, index) => {
-          return <button key={index} type="button" name="category" value={curElem} onClick={updateFilterValue}>
+          return <button key={index} type="button" name="category" value={curElem} className={curElem === category ? "active" : ""} onClick={updateFilterValue}>
             {curElem}
           </button>
         })}</div>
@@ -99,6 +100,10 @@ const FilterSection = () => {
         <h3>Price</h3>
          <p><FormatPrice price={price}/></p>
          <input type="range" name="price" min={minPrice} max={maxPrice} value={price} onChange={updateFilterValue} />
+      </div>
+
+      <div className="filter-clear">
+        <Button className="btn" onClick={clearFilters}>Clear Filters</Button>
       </div>
     </Wrapper>
   )

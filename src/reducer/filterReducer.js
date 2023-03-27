@@ -4,24 +4,24 @@ const filterReducer = (state, action) => {
 
     case "LOAD_FILTER_PRODUCTS":
 
-    let priceArr = action.payload.map((curElem)=> curElem.price);
-    console.log(priceArr);
-    // 1 way
-    //console.log(Math.max.apply(null, priceArr));
+      let priceArr = action.payload.map((curElem) => curElem.price);
+      console.log(priceArr);
+      // 1 way
+      //console.log(Math.max.apply(null, priceArr));
 
-    // 2 way
-    // let maxPrice = priceArr.reduce((initialVal, curVal)=> Math.max(initialVal,curVal),0);
-    // console.log(maxPrice);
+      // 2 way
+      // let maxPrice = priceArr.reduce((initialVal, curVal)=> Math.max(initialVal,curVal),0);
+      // console.log(maxPrice);
 
-    // 3 way
-    let maxPrice = Math.max(...priceArr);
-    console.log(maxPrice);
+      // 3 way
+      let maxPrice = Math.max(...priceArr);
+      console.log(maxPrice);
 
       return {
         ...state,
         filter_products: [...action.payload],
         all_products: [...action.payload],
-        filters: {...state.filters, maxPrice : maxPrice, price: maxPrice}
+        filters: { ...state.filters, maxPrice: maxPrice, price: maxPrice }
       };
 
     case "SET_GRIDVIEW":
@@ -129,15 +129,30 @@ const filterReducer = (state, action) => {
         })
       }
 
-      if(price===0){
-        tempFilterProduct = tempFilterProduct.filter((curElem)=> curElem.price = price);
-      }else{
-        tempFilterProduct = tempFilterProduct.filter((curElem)=> curElem.price <= price);
+      if (price === 0) {
+        tempFilterProduct = tempFilterProduct.filter((curElem) => curElem.price = price);
+      } else {
+        tempFilterProduct = tempFilterProduct.filter((curElem) => curElem.price <= price);
       }
 
       return {
         ...state,
         filter_products: tempFilterProduct,
+      }
+
+    case "CLEAR_FILTERS":
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          text: "",
+          category: "all",
+          company: "all",
+          color: "all",
+          maxPrice: state.filters.maxPrice,
+          price: state.filters.maxPrice,
+          minPrice: state.filters.minPrice,
+        }
       }
 
     default:
