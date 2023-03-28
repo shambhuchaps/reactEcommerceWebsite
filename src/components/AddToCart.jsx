@@ -1,41 +1,44 @@
 import styled from "styled-components";
 import { useState } from "react";
-import {FaCheck} from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
 import CartAmountToggle from "./CartAmountToggle";
 import { NavLink } from "react-router-dom";
 import { Button } from "../styles/Buttons";
+import { useCartContext } from "../context/cart_context";
 
-const AddToCart = ({product}) => {
+const AddToCart = ({ product }) => {
 
-const {id, colors, stock } = product;
-const [color, setcolor] = useState(colors[0]);
-const [amount, setAmount] = useState(1);
+  const { addToCart } = useCartContext();
 
-const setDecrease = ()=>{
-  amount > 1 ? setAmount(amount - 1) : setAmount(1);
-};
+  const { id, colors, stock } = product;
+  const [color, setcolor] = useState(colors[0]);
+  const [amount, setAmount] = useState(1);
 
-const setIncrease = ()=>{
-  amount < stock ? setAmount(amount + 1) : setAmount(stock);
-};
+  const setDecrease = () => {
+    amount > 1 ? setAmount(amount - 1) : setAmount(1);
+  };
+
+  const setIncrease = () => {
+    amount < stock ? setAmount(amount + 1) : setAmount(stock);
+  };
 
   return (
     <Wrapper>
       <div className="colors">
         <p>
           Colors:
-          {colors.map((curColor, index) =>{
-            return <button key={index} style={{backgroundColor: curColor}} className={color === curColor ? "btnStyle active" : "btnStyle"} onClick={()=> setcolor(curColor)}>
-                {color === curColor ? <FaCheck className="checkStyle"/> : null}
+          {colors.map((curColor, index) => {
+            return <button key={index} style={{ backgroundColor: curColor }} className={color === curColor ? "btnStyle active" : "btnStyle"} onClick={() => setcolor(curColor)}>
+              {color === curColor ? <FaCheck className="checkStyle" /> : null}
             </button>
           })}
         </p>
       </div>
 
       {/* add to cart  */}
-      <CartAmountToggle amount={amount} setDecrease={setDecrease} setIncrease={setIncrease}/>
+      <CartAmountToggle amount={amount} setDecrease={setDecrease} setIncrease={setIncrease} />
 
-      <NavLink to="/cart">
+      <NavLink to="/cart" onClick={() => addToCart(id, color, amount, product)}>
         <Button className="btn">Add to Cart</Button>
       </NavLink>
     </Wrapper>
