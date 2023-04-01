@@ -5,21 +5,29 @@ const cartReducer = (state, action) => {
     let { id, color, amount, product } = action.payload;
     // console.log(product);
 
-   let cartProduct;
+    let cartProduct;
 
-   cartProduct = {
-    id: id + color,
-    name: product.name,
-    color,
-    amount,
-    image: product.image[0].url,
-    price: product.price,
-    max: product.stock,
-   }
+    cartProduct = {
+      id: id + color,
+      name: product.name,
+      color,
+      amount,
+      image: product.image[0].url,
+      price: product.price,
+      max: product.stock,
+    }
 
     return {
       ...state,
-      cart : [...state.cart, cartProduct],
+      cart: [...state.cart, cartProduct],
+    }
+  }
+
+  if (action.type === "REMOVE_ITEM") {
+    let updatedCart = state.cart.filter((curElem) => curElem.id !== action.payload)
+    return {
+      ...state,
+      cart: updatedCart,
     }
   }
 

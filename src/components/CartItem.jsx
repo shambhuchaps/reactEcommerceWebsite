@@ -2,8 +2,10 @@ import React from 'react'
 import { FaTrash } from 'react-icons/fa';
 import FormatPrice from "../Helpers/FormatePrice";
 import CartAmountToggle from './CartAmountToggle';
+import { useCartContext } from '../context/cart_context';
 
 const CartItem = ({id, name, image, color, price, amount}) => {
+  const {removeItem} = useCartContext();
 
   // const [amount, setAmount] = useState(1);
 
@@ -43,7 +45,7 @@ const CartItem = ({id, name, image, color, price, amount}) => {
       </div>
 
       <div>
-        <FaTrash className='remove_icon' />
+        <FaTrash className='remove_icon' onClick={()=> removeItem(id)} />
       </div>
     </div>
   )
