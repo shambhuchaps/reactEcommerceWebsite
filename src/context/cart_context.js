@@ -3,11 +3,11 @@ import reducer from "../reducer/cartReducer";
 
 const CartContext = createContext();
 
-const getLocalCartData = ()=>{
+const getLocalCartData = () => {
   let localCartData = localStorage.getItem("myCart");
-  if(localCartData === []){
+  if (localCartData === []) {
     return [];
-  }else{
+  } else {
     return JSON.parse(localCartData);
   }
 }
@@ -24,25 +24,30 @@ const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const addToCart = (id, color, amount, product) => {
-    dispatch({type:"ADD_TO_CART", payload: {id, color, amount, product}})
+    dispatch({ type: "ADD_TO_CART", payload: { id, color, amount, product } })
   }
 
-  const removeItem = (id) =>{
-    dispatch({type: "REMOVE_ITEM", payload: id})
+  const removeItem = (id) => {
+    dispatch({ type: "REMOVE_ITEM", payload: id })
+  }
+
+  // to clear the cart 
+  const clearCart = () => {
+    dispatch({type:"CLEAR_CART"})
   }
 
   // to add the data in local Storage 
   useEffect(() => {
     localStorage.setItem("myCart", JSON.stringify(state.cart))
   }, [state.cart])
-  
 
-  return <CartContext.Provider value={{...state, addToCart, removeItem}}>
+
+  return <CartContext.Provider value={{ ...state, addToCart, removeItem, clearCart }}>
     {children}
   </CartContext.Provider>
 };
 
-const useCartContext = () =>{
+const useCartContext = () => {
   return useContext(CartContext);
 };
 
