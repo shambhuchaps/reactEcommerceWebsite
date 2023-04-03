@@ -9,7 +9,7 @@ const Cart = () => {
   const { cart, clearCart } = useCartContext();
   // console.log(cart);
 
-  if(cart.length === 0){
+  if (cart.length === 0) {
     return (
       <EmptyDiv>
         <h3>No cart in item</h3>
@@ -31,8 +31,8 @@ const Cart = () => {
 
         <div className="cart-item">
           {
-            cart.map((curElem)=>{
-              return <CartItem key={curElem.id} {... curElem}/>
+            cart.map((curElem) => {
+              return <CartItem key={curElem.id} {...curElem} />
             })
           }
         </div>
