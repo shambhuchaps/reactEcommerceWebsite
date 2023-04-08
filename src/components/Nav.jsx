@@ -4,10 +4,13 @@ import styled from 'styled-components';
 import { FiShoppingCart } from "react-icons/fi";
 import { CgMenu, CgClose } from 'react-icons/cg';
 import { useCartContext } from '../context/cart_context';
+import { useAuth0 } from "@auth0/auth0-react";
+import { Button } from '../styles/Buttons';
 
 const Nav = () => {
   const [menuIcon, setMenuIcon] = useState();
-  const {total_item} = useCartContext();
+  const { total_item } = useCartContext();
+  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
 
   const Nav = styled.nav`
   .navbar-lists {
@@ -31,8 +34,6 @@ const Nav = () => {
       }
     }
   }
- 
- 
   .cart-trolley--link {
     position: relative;
     .cart-trolley {
@@ -65,6 +66,14 @@ const Nav = () => {
   }
   .close-outline {
     display: none;
+  }
+  .user-login--name{
+    text-transform: Capitalize;
+  }
+  .user-logout,
+  .user-login{
+    font-size: 1.4rem;
+    padding: 0.8rem 1.4rem;
   }
 
   @media (max-width: ${({ theme }) => theme.media.mobile}) {
@@ -129,7 +138,12 @@ const Nav = () => {
         font-size: 2rem;
       }
     }
-  }
+    .user-logout,
+      .user-login {
+        font-size: 2.2rem;
+        padding: 0.8rem 1.4rem;
+      }
+    }
 `;
 
   return (
@@ -148,6 +162,26 @@ const Nav = () => {
           <li>
             <NavLink to="/contact" className='navbar-link ' onClick={() => setMenuIcon(false)}>Contact</NavLink>
           </li>
+          {
+            isAuthenticated && (<li>
+              <p className='user-login--name'>
+                {user.name}
+              </p>
+            </li>)
+          }
+          {
+            isAuthenticated ? (
+              <li>
+                <Button className='user-logout' onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+                  Log Out
+                </Button>
+              </li>) : (
+              <li>
+                <Button className='user-login' onClick={() => loginWithRedirect()}>Log In</Button>
+              </li>)
+          }
+
+
           <li>
             <NavLink to='/cart' className='navbar-link cart-trolley--link'>
               <FiShoppingCart className='cart-trolley' />
